@@ -3,6 +3,7 @@ package com.project1.softwaresoluitons.xyz;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -112,6 +113,22 @@ public class reg_train1 extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView=(RecyclerView)view.findViewById(R.id.reg_train);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(context, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent i = new Intent(context, training_detail.class);
+                        i.putExtra("training_id", trainings.get(position).id);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        Intent i = new Intent(context, training_detail.class);
+                        i.putExtra("training_id", trainings.get(position).id);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
+                    }
+                }));
         context=getActivity().getApplicationContext();
         training_ids=new ArrayList<String>();
         fetch_trainings();

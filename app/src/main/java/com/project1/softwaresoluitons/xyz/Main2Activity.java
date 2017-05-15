@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main2Activity extends AppCompatActivity implements SearchView.OnQueryTextListener {
-    public ArrayList<item> trainings;
+    public ArrayList<item> trainings,items;
     public ProgressDialog dialog;
     public RequestQueue queue;
     public RecyclerView recyclerView;
@@ -56,6 +56,20 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
         trainings=new ArrayList<item>();
         queue = Volley.newRequestQueue(getApplicationContext());
         recyclerView=(RecyclerView)findViewById(R.id.reg_train);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent i = new Intent(Main2Activity.this, training_detail.class);
+                        i.putExtra("training_id", items.get(position).id);
+                        startActivity(i);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        Intent i = new Intent(Main2Activity.this, training_detail.class);
+                        i.putExtra("training_id", items.get(position).id);
+                        startActivity(i);
+                    }
+                }));
         getSupportActionBar().setTitle("Search Trainings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
@@ -101,10 +115,14 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
         return true;
     }
     public void fetch_trainings(){
+        dialog = new ProgressDialog(Main2Activity.this);
+        dialog.setMessage("Please wait !!");
+        dialog.show();
         final all_train_SQlite msqld=new all_train_SQlite(getApplicationContext());
         final SQLiteDatabase sqlite=msqld.getWritableDatabase();
         Cursor c=sqlite.query(msqld.TB_name,null,null,null,null,null,"id");
         if(c.getCount()!=0){
+            dialog.dismiss();
             c.moveToFirst();
             while(!c.isAfterLast()){
                 int id = c.getInt(c.getColumnIndex("id"));
@@ -127,9 +145,7 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         }
         else {
-            dialog = new ProgressDialog(getApplicationContext());
-            dialog.setMessage("Please wait !!");
-            dialog.show();
+
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_ROOT,
                     new Response.Listener<String>() {
                         @Override
@@ -195,101 +211,101 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
             queue.add(stringRequest);
         }
     }
-}
+    class myadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        ArrayList<item> trainings;
+        Context context;
+        LayoutInflater l;
 
-class myadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    ArrayList<item> trainings,items;
-    Context context;
-    LayoutInflater l;
-
-    myadapter(Context c, ArrayList<item> t) {
-        this.context = c;
-        this.trainings = t;
-        items=new ArrayList<item>();
-        items=t;
-        l=LayoutInflater.from(context);
-    }
+        myadapter(Context c, ArrayList<item> t) {
+            this.context = c;
+            this.trainings = t;
+            items=new ArrayList<item>();
+            items=t;
+            l=LayoutInflater.from(context);
+        }
 
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = l.inflate(R.layout.training_item, null,false);
-        viewHolder vh = new viewHolder(v);
-        return vh;
+            View v = l.inflate(R.layout.training_item, null,false);
+            viewHolder vh = new viewHolder(v);
+            return vh;
 
-    }
+        }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
-        viewHolder holder=(viewHolder)holder1;
-        holder.title.setText(items.get(position).title);
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
+            viewHolder holder=(viewHolder)holder1;
+            holder.title.setText(items.get(position).title);
 
-        holder.price.setText(items.get(position).price);
-        Bitmap y = getRoundedShape(items.get(position).b);
-        holder.img.setImageBitmap(y);
-        holder.location.setText(items.get(position).location);
-        holder.contact.setText(items.get(position).contact);
+            holder.price.setText(items.get(position).price);
+            Bitmap y = getRoundedShape(items.get(position).b);
+            holder.img.setImageBitmap(y);
+            holder.location.setText(items.get(position).location);
+            holder.contact.setText(items.get(position).contact);
 
-    }
+        }
 
-    public void filter(String text) {
-        ArrayList<item> temp=new ArrayList<item>();
-        if(text.isEmpty()){
-            for(int i=0;i < trainings.size();i++){
-                temp.add(trainings.get(i));
-            }
-            items=temp;
-        } else{
-            text = text.toLowerCase();
-            for(int i=0;i < trainings.size();i++){
-                if(trainings.get(i).title.toLowerCase().contains(text)){
+        public void filter(String text) {
+            ArrayList<item> temp=new ArrayList<item>();
+            if(text.isEmpty()){
+                for(int i=0;i < trainings.size();i++){
                     temp.add(trainings.get(i));
                 }
+                items=temp;
+            } else{
+                text = text.toLowerCase();
+                for(int i=0;i < trainings.size();i++){
+                    if(trainings.get(i).title.toLowerCase().contains(text)){
+                        temp.add(trainings.get(i));
+                    }
+                }
+                items=temp;
             }
-            items=temp;
+            notifyDataSetChanged();
         }
-        notifyDataSetChanged();
-    }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
 
-    public String getStringImage(Bitmap bmp) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
-    }
-    public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
-        int targetWidth = 120;
-        int targetHeight = 120;
-        Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
-                targetHeight,Bitmap.Config.ARGB_8888);
+        public String getStringImage(Bitmap bmp) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            return encodedImage;
+        }
+        public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
+            int targetWidth = 120;
+            int targetHeight = 120;
+            Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
+                    targetHeight,Bitmap.Config.ARGB_8888);
 
-        Canvas canvas = new Canvas(targetBitmap);
-        Path path = new Path();
-        path.addCircle(((float) targetWidth - 1) / 2,
-                ((float) targetHeight - 1) / 2,
-                (Math.min(((float) targetWidth),
-                        ((float) targetHeight)) / 2),
-                Path.Direction.CCW);
+            Canvas canvas = new Canvas(targetBitmap);
+            Path path = new Path();
+            path.addCircle(((float) targetWidth - 1) / 2,
+                    ((float) targetHeight - 1) / 2,
+                    (Math.min(((float) targetWidth),
+                            ((float) targetHeight)) / 2),
+                    Path.Direction.CCW);
 
-        canvas.clipPath(path);
-        Bitmap sourceBitmap = scaleBitmapImage;
-        canvas.drawBitmap(sourceBitmap,
-                new Rect(0, 0, sourceBitmap.getWidth(),
-                        sourceBitmap.getHeight()),
-                new Rect(0, 0, targetWidth, targetHeight), null);
-        return targetBitmap;
-    }
+            canvas.clipPath(path);
+            Bitmap sourceBitmap = scaleBitmapImage;
+            canvas.drawBitmap(sourceBitmap,
+                    new Rect(0, 0, sourceBitmap.getWidth(),
+                            sourceBitmap.getHeight()),
+                    new Rect(0, 0, targetWidth, targetHeight), null);
+            return targetBitmap;
+        }
 
-}
+
+    }}
+

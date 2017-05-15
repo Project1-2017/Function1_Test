@@ -3,6 +3,7 @@ package com.project1.softwaresoluitons.xyz;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -102,7 +104,7 @@ public class reg_train extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        trainings=new ArrayList<item>();
+        trainings = new ArrayList<item>();
 
         queue = Volley.newRequestQueue(getContext());
 
@@ -112,7 +114,7 @@ public class reg_train extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View layout=inflater.inflate(R.layout.fragment_reg_train, container, false);
+        View layout = inflater.inflate(R.layout.fragment_reg_train, container, false);
 
         return layout;
     }
@@ -126,8 +128,24 @@ public class reg_train extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        recyclerView=(RecyclerView)view.findViewById(R.id.reg_train);
-        context=getActivity().getApplicationContext();
+        recyclerView = (RecyclerView) view.findViewById(R.id.reg_train);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(context, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent i = new Intent(context, training_detail.class);
+                        i.putExtra("training_id", trainings.get(position).id);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        Intent i = new Intent(context, training_detail.class);
+                        i.putExtra("training_id", trainings.get(position).id);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
+                    }
+                }));
+        context = getActivity().getApplicationContext();
         fetch_trainings();
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
         recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
@@ -219,9 +237,9 @@ public class reg_train extends Fragment {
     //                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                                     Bitmap b=BitmapFactory.decodeResource(reg_train.context.getResources(), R.mipmap.ic_launcher);
                                     item object = new item(id, title, location, price,b );
-
-                                    trainings.add(object);
-
+                                    if(userId==3) {
+                                        trainings.add(object);
+                                    }
 
                                     ContentValues c=new ContentValues();
                                     c.put("id",String.valueOf(id));

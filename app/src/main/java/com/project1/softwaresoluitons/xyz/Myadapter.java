@@ -1,6 +1,7 @@
 package com.project1.softwaresoluitons.xyz;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Path;
@@ -10,6 +11,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class Myadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return vh;
 
     }
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
@@ -90,5 +93,6 @@ public class Myadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 new Rect(0, 0, targetWidth, targetHeight), null);
         return targetBitmap;
     }
+
 
 }
