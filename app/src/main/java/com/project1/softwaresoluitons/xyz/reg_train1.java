@@ -203,11 +203,12 @@ public class reg_train1 extends Fragment {
                                         String title = c.getString(c.getColumnIndex("title"));
                                         String price = String.valueOf(c.getFloat(c.getColumnIndex("price")));
                                         String location = c.getString(c.getColumnIndex("location"));
+                                        String category = c.getString(c.getColumnIndex("category"));
                                         //  String img_base_64 = c.getString(c.getColumnIndex("img_base_64"));
                                         //byte[] decodedString = Base64.decode(img_base_64, Base64.DEFAULT);
                                         // Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                                         Bitmap b = BitmapFactory.decodeResource(reg_train.context.getResources(), R.mipmap.ic_launcher);
-                                        item object = new item(id, title, location, price, b);
+                                        item object = new item(id, title, location, price, b,category);
 
                                         trainings.add(object);
                                         c.moveToNext();

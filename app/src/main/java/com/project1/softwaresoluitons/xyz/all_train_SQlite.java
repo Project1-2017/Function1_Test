@@ -10,7 +10,7 @@ public class all_train_SQlite extends SQLiteOpenHelper {
     public static String TB_name="trainings";
     public static int version=1;
     public static Context context;
-    public static String create_query="CREATE TABLE "+TB_name+" (id int primary key,title varchar(50),location varchar(100),price float,img_base_64 mediumtext,user_id int);" ;
+    public static String create_query="CREATE TABLE "+TB_name+" (id int primary key,title varchar(50),category varchar(50),location varchar(100),price float,img_base_64 mediumtext,user_id int);" ;
     public static String drop="Drop table if exists "+TB_name;
     public all_train_SQlite(Context c){
         super(c,DB_name,null,version);

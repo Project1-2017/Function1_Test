@@ -20,11 +20,14 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,6 +43,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,11 +54,15 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
     public RequestQueue queue;
     public RecyclerView recyclerView;
     public myadapter adapter;
+    public static String cat_nam;
+    public ArrayList<item> sorted_by_category;
+    public ArrayList<String> categories;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_reg_train);
         trainings=new ArrayList<item>();
+        categories=new ArrayList<>();
         queue = Volley.newRequestQueue(getApplicationContext());
         recyclerView=(RecyclerView)findViewById(R.id.reg_train);
         recyclerView.addOnItemTouchListener(
@@ -75,7 +84,9 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
         recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         fetch_trainings();
+        //registerForContextMenu(recyclerView);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,14 +100,69 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                if (data == null) {
+                    Toast.makeText(this, "No category choosen", Toast.LENGTH_LONG);
+                } else {
+                    String c = data.getStringExtra("category");
+                    sorted_by_category=new ArrayList<>();
+                    for(int i=0;i<trainings.size();i++){
+                        if(trainings.get(i).category.equals(c)){
+                            sorted_by_category.add(trainings.get(i));
+                        }
+                    }
+                    items=sorted_by_category;
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // app icon in action bar clicked; go home
                 finish();
-                Intent intent = new Intent(this, Main3Activity.class);
+                Intent intent = new Intent(this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                return true;
+            case R.id.srt_by_price:
+                // app icon in action bar clicked; go home
+                Collections.sort(items, new Comparator<item>() {
+                    @Override
+                    public int compare(item lhs, item rhs) {
+                        Float l=Float.parseFloat(lhs.price);
+                        Float r=Float.parseFloat(rhs.price);
+                        return l.compareTo(r);
+                    }
+                });
+                adapter.notifyDataSetChanged();
+                Toast.makeText(this,"Highest price first",Toast.LENGTH_LONG);
+                return true;
+            case R.id.srt_by_name:
+                // app icon in action bar clicked; go home
+                Collections.sort(items, new Comparator<item>() {
+                    @Override
+                    public int compare(item lhs, item rhs) {
+                        return lhs.title.toLowerCase().compareTo(rhs.title.toLowerCase());
+                    }
+                });
+                adapter.notifyDataSetChanged();
+                return true;
+            case R.id.srt_by_category:
+                // app icon in action bar clicked; go home
+               fetch_categories();
+                return true;
+            case R.id.all_trainings:
+                // app icon in action bar clicked; go home
+                items=trainings;
+                adapter.notifyDataSetChanged();
+                Toast.makeText(this,"Highest price first",Toast.LENGTH_LONG);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -114,6 +180,57 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
         adapter.filter(query);
         return true;
     }
+
+    public void fetch_categories(){
+        dialog = new ProgressDialog(Main2Activity.this);
+        dialog.setMessage("Please wait !!");
+        dialog.show();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_ROOT,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            dialog.dismiss();
+
+                            Log.i("response",response);
+                            try {
+                                JSONObject res = new JSONObject(response);
+                                JSONArray thread = res.getJSONArray("categories");
+                                for (int i = 0; i < thread.length(); i++) {
+                                    JSONObject obj = thread.getJSONObject(i);
+                                    String category = obj.getString("category");
+                                    categories.add(category);
+                                }
+                                String[] cat = new String[categories.size()];
+                                cat = categories.toArray(cat);
+                                Bundle b=new Bundle();
+                                b.putStringArray("categories", cat);
+                                Intent i=new Intent(Main2Activity.this, sel_cat.class);
+                                i.putExtras(b);
+
+                                startActivityForResult(i, 1);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("type","categories");
+                    return params;
+                }
+            };
+            queue.add(stringRequest);
+        }
+
     public void fetch_trainings(){
         dialog = new ProgressDialog(Main2Activity.this);
         dialog.setMessage("Please wait !!");
@@ -130,11 +247,12 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
                 String title = c.getString(c.getColumnIndex("title"));
                 String price = String.valueOf(c.getFloat(c.getColumnIndex("price")));
                 String location = c.getString(c.getColumnIndex("location"));
+                String category = c.getString(c.getColumnIndex("category"));
                 //  String img_base_64 = c.getString(c.getColumnIndex("img_base_64"));
                 //byte[] decodedString = Base64.decode(img_base_64, Base64.DEFAULT);
                 // Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 Bitmap b= BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                item object = new item(id, title, location, price,b );
+                item object = new item(id, title, location, price,b ,category);
                 trainings.add(object);
                 c.moveToNext();
             }
@@ -163,12 +281,13 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
                                     String title = obj.getString("title");
                                     String price =obj.getString("price");
                                     String location = obj.getString("location");
+                                    String category = obj.getString("category");
 //                                    String img_base_64 = obj.getString("img_base_64");
                                     //                                  byte[] decodedString = Base64.decode(img_base_64, Base64.DEFAULT);
                                     //                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
                                     Bitmap b=BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                                    item object = new item(id, title, location, price,b );
+                                    item object = new item(id, title, location, price,b ,category);
 
                                     trainings.add(object);
 
@@ -180,6 +299,7 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
                                     c.put("price",price);
                                     // c.put("img_base_64",img_base_64);
                                     c.put("location",location);
+                                    c.put("category",category);
 
                                     sqlite.insert(msqld.TB_name,null,c);
                                 }
@@ -234,12 +354,15 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
 
         }
 
+        /** This will be invoked when an item in the listview is long pressed */
+
+
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
             viewHolder holder=(viewHolder)holder1;
             holder.title.setText(items.get(position).title);
 
-            holder.price.setText(items.get(position).price);
+            holder.price.setText("Rs. "+items.get(position).price);
             Bitmap y = getRoundedShape(items.get(position).b);
             holder.img.setImageBitmap(y);
             holder.location.setText(items.get(position).location);
@@ -306,6 +429,6 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
             return targetBitmap;
         }
 
-
     }}
+
 

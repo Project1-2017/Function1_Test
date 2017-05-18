@@ -46,7 +46,7 @@ public class Myadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         viewHolder holder=(viewHolder)holder1;
         holder.title.setText(trainings.get(position).title);
 
-        holder.price.setText(trainings.get(position).price);
+        holder.price.setText("Rs. "+trainings.get(position).price);
         Bitmap y = getRoundedShape(trainings.get(position).b);
         holder.img.setImageBitmap(y);
         holder.location.setText(trainings.get(position).location);

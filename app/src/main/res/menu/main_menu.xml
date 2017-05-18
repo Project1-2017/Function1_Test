@@ -5,5 +5,19 @@
         android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/srt_by_price"
+        android:title="Sort by Price"
+        >
+    </item>
+        <item android:id="@+id/srt_by_category"
+            android:title="Sort by Category" >
+            </item>
+        <item android:id="@+id/srt_by_locations"
+            android:title="Sort by Locations" />
+    <item android:id="@+id/srt_by_name"
+        android:title="Sort by Name" />
+    <item android:id="@+id/all_trainings"
+        android:title="All Trainings" />
 
 </menu>

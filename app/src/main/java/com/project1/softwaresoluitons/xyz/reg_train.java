@@ -196,11 +196,12 @@ public class reg_train extends Fragment {
                 String title = c.getString(c.getColumnIndex("title"));
                 String price = String.valueOf(c.getFloat(c.getColumnIndex("price")));
                 String location = c.getString(c.getColumnIndex("location"));
+                String category = c.getString(c.getColumnIndex("category"));
               //  String img_base_64 = c.getString(c.getColumnIndex("img_base_64"));
                 //byte[] decodedString = Base64.decode(img_base_64, Base64.DEFAULT);
                // Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 Bitmap b=BitmapFactory.decodeResource(reg_train.context.getResources(), R.mipmap.ic_launcher);
-                item object = new item(id, title, location, price ,b );
+                item object = new item(id, title, location, price ,b,category );
 
                 trainings.add(object);
                 c.moveToNext();
@@ -232,11 +233,12 @@ public class reg_train extends Fragment {
                                     String title = obj.getString("title");
                                     String price =obj.getString("price");
                                     String location = obj.getString("location");
+                                    String category = obj.getString("category");
 //                                    String img_base_64 = obj.getString("img_base_64");
   //                                  byte[] decodedString = Base64.decode(img_base_64, Base64.DEFAULT);
     //                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                                     Bitmap b=BitmapFactory.decodeResource(reg_train.context.getResources(), R.mipmap.ic_launcher);
-                                    item object = new item(id, title, location, price,b );
+                                    item object = new item(id, title, location, price,b ,category);
                                     if(userId==3) {
                                         trainings.add(object);
                                     }
@@ -248,7 +250,7 @@ public class reg_train extends Fragment {
                                     c.put("price",price);
                                    // c.put("img_base_64",img_base_64);
                                     c.put("location",location);
-
+                                    c.put("category",category);
                                     sqlite.insert(msqld.TB_name,null,c);
                                 }
                                 msqld.close();
