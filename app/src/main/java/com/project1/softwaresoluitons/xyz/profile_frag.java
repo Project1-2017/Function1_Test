@@ -1,12 +1,15 @@
 package com.project1.softwaresoluitons.xyz;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -22,7 +25,7 @@ public class profile_frag extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    public TextView name,location,mobile,email;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -51,6 +54,19 @@ public class profile_frag extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        name=(TextView)view.findViewById(R.id.name1);
+        mobile=(TextView)view.findViewById(R.id.mobile1);
+        location=(TextView)view.findViewById(R.id.location1);
+        email=(TextView)view.findViewById(R.id.email1);
+        SharedPreferences user=getActivity().getSharedPreferences("user",Context.MODE_PRIVATE);
+        name.setText(user.getString("name"," "));
+        mobile.setText(user.getString("contact"," "));
+        location.setText(user.getString("location"," "));
+        email.setText(user.getString("email"," "));
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -20,21 +20,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
         </activity>
-        <activity android:name=".Main3Activity"></activity>
         <activity
             android:name=".training_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".sel_cat"
-            android:theme="@android:style/Theme.Dialog" ></activity>
+        <activity
+            android:name=".sel_cat"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".Login" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity android:name=".register"></activity>
     </application>
 
 </manifest>
