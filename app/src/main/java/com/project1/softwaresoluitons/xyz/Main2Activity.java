@@ -70,6 +70,7 @@ public class Main2Activity extends AppCompatActivity implements SearchView.OnQue
                     @Override public void onItemClick(View view, int position) {
                         Intent i = new Intent(Main2Activity.this, training_detail.class);
                         i.putExtra("training_id", items.get(position).id);
+                        Log.i("training_id", items.get(position).id+"");
                         startActivity(i);
                     }
 

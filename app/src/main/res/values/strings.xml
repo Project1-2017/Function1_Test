@@ -6,6 +6,12 @@
         <item>Registered\nTrainings</item>
     </array>
 
+    <array name="availability">
+        <item>Weekdays</item>
+        <item>Weekends</item>
+        <item>Daily</item>
+    </array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_home">HomeActivity</string>

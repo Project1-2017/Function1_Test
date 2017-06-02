@@ -60,7 +60,7 @@ public class training_detail extends AppCompatActivity {
         id=String.valueOf(i.getIntExtra("training_id",0));
         img=(ImageView)findViewById(R.id.header);
         queue = Volley.newRequestQueue(getApplicationContext());
-        Log.i("training_id",""+id);
+        Log.i("training_id11",""+id);
         Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         recyclerView=(RecyclerView)findViewById(R.id.rview);
