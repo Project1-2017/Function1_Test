@@ -31,4 +31,4 @@ that displays all information of the training item being clicked
 12. viewHolder:-
 <br>this class is used as a viewholder by recyclerviews in MainActivity and Main2Activity
 ## fragments:-
-<br>profile_frag , reg_train and reg_train1 are 
+<br>profile_frag , reg_train , reg_train1 
