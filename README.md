@@ -2,7 +2,7 @@
 
 The java files in xyz/app/src/main/java/com/project1/softwaresoluitons/xyz:-
 1. all_train_Sqlite:-
-sqlite database that contains detaiils of all the trainings 
+  sqlite database that contains detaiils of all the trainings 
 2. crt_training:-
 activity to create training
 3. HomeActivity:-
