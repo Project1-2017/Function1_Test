@@ -1,6 +1,9 @@
 package com.project1.softwaresoluitons.xyz;
 
+import android.*;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,14 +26,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
     public Button profile_button;
     public Button trainings_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sh=getSharedPreferences("user",MODE_PRIVATE);
+        int count=sh.getInt("count",0);
+        if(count>0){
+            Toast toast = Toast.makeText(this,"You have "+count+"unresponded enquiries", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,9 +115,9 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.create_training) {
             startActivity(new Intent(this,crt_training.class));
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.t_notifications) {
+            startActivity(new Intent(this,tr_notifications.class));
+        } else if (id == R.id.u_Notifications) {
 
         } else if (id == R.id.nav_manage) {
 

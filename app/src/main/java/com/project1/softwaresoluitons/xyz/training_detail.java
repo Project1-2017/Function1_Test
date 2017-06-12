@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class training_detail extends AppCompatActivity {
+public class training_detail extends AppCompatActivity implements View.OnClickListener {
     public TextView key_learning10,key_learning20,trainer10,trainer20,time_venue10,time_venue20,time_venue30,time_venue40,pre10;
     String id,title,k_l1,k_l2,k_l3,price,mobile_no,name,venue,category,available,from,to,date,description,pre;
     public ProgressDialog dialog;
@@ -51,10 +52,11 @@ public class training_detail extends AppCompatActivity {
     public CollapsingToolbarLayout collapsingToolbar;
     public ArrayList<training_detail_item> items;
     public RecyclerView recyclerView;
+    public Button register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training_detail);
+        setContentView(R.layout.all_trainings_detail);
         items=new ArrayList<>();
         Intent i=getIntent();
         id=String.valueOf(i.getIntExtra("training_id",0));
@@ -64,6 +66,12 @@ public class training_detail extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         recyclerView=(RecyclerView)findViewById(R.id.rview);
+        register=(Button)findViewById(R.id.register);
+        register.setOnClickListener(this);
+        int u=i.getIntExtra("calling_activity",0);
+        if(u==0){
+            register.setVisibility(View.GONE);
+        }
         fetch_trainings();
 
     }
@@ -149,6 +157,15 @@ public class training_detail extends AppCompatActivity {
             };
             queue.add(stringRequest);
         }
+
+    @Override
+    public void onClick(View v) {
+        if(v==register){
+            Intent i=new Intent(this,enquiry.class);
+            i.putExtra("training_id",id);
+            startActivity(i);
+        }
+    }
 }
 
 class adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

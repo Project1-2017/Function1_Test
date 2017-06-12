@@ -3,7 +3,7 @@
     package="com.project1.softwaresoluitons.xyz">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +25,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".sel_cat"
             android:theme="@android:style/Theme.Dialog" />
@@ -37,8 +37,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".register" />
-        <activity android:name=".crt_training"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".crt_training"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".enquiry"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".gf_login" />
+        <activity android:name=".tr_notifications" />
+        <activity android:name=".reply"
+            android:theme="@android:style/Theme.Dialog" ></activity>
     </application>
 
 </manifest>

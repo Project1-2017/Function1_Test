@@ -34,6 +34,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
     public Button register;
     public ProgressDialog dialog;
     public RequestQueue queue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

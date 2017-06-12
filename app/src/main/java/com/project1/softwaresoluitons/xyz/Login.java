@@ -153,7 +153,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             }
         }
         if(v==r_button){
-            startActivity(new Intent(this,register.class));
+            Intent i=new Intent(this,register.class);
+            startActivity(i);
         }
     }
     public void login(final String username, final String password){
@@ -170,7 +171,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                         try {
                             JSONObject res = new JSONObject(response);
                             String status=res.getString("login_status");
+                            int count=res.getInt("count");
                             if(status.equals("true")){
+
                                 SharedPreferences user=getSharedPreferences("user",MODE_PRIVATE);
                                 SharedPreferences.Editor editor=user.edit();
                                 editor.putInt("usr_id",res.getInt("usr_id"));
@@ -178,10 +181,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                                 editor.putString("email",res.getString("email"));
                                 editor.putString("contact",res.getString("contact"));
                                 editor.putString("location",res.getString("location"));
+                                editor.putInt("count",count);
                                 editor.commit();
-                                Toast.makeText(Login.this,"login successful",Toast.LENGTH_LONG).show();
+                                Toast.makeText(Login.this,"Welcome !!",Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Login.this,HomeActivity.class));
-                                Toast.makeText(Login.this,"login successful",Toast.LENGTH_LONG).show();
                             }
                             else{
                                 Toast.makeText(Login.this,"login failed",Toast.LENGTH_LONG).show();
@@ -230,15 +233,30 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                         Log.i("response",response);
                         try {
                             JSONObject res = new JSONObject(response);
-                            int id=res.getInt("usr_id");
-                            SharedPreferences user=getSharedPreferences("user",MODE_PRIVATE);
-                            SharedPreferences.Editor editor=user.edit();
-                            editor.putInt("usr_id",id);
-                            editor.putString("name",name);
-                            editor.putString("email",email);
-                            editor.commit();
-                            Toast.makeText(Login.this,"login successful",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(Login.this,HomeActivity.class));
+
+                            int first_time=res.getInt("first_time");
+                            if(first_time==0){
+                                SharedPreferences user=getSharedPreferences("user",MODE_PRIVATE);
+                                SharedPreferences.Editor editor=user.edit();
+                                int id=res.getInt("usr_id");
+                                editor.putInt("usr_id",id);
+                                editor.putString("name",name);
+                                editor.putString("email",email);
+                                editor.putString("contact",res.getString("contact"));
+                                editor.putString("location",res.getString("location"));
+                                editor.putInt("count",res.getInt("count"));
+                                editor.commit();
+                                Toast.makeText(Login.this,"Welcome !!",Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(Login.this,HomeActivity.class));
+                                finish();
+                            }
+                            else if(first_time==1){
+                                Intent i=new Intent(Login.this,gf_login.class);
+                                i.putExtra("name",name);
+                                i.putExtra("email",email);
+                                startActivity(i);
+                                finish();
+                            }
                         } catch (JSONException e) {
                             Toast.makeText(Login.this,"login failed",Toast.LENGTH_LONG).show();
                             e.printStackTrace();
