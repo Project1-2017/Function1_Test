@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".register">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scroll"
+        android:layout_centerInParent="true"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/profile">
+                <ImageView
+                    android:layout_width="165dp"
+                    android:layout_height="165dp"
+                    android:id="@+id/imag"
+                    android:src="@drawable/user"
+
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:id="@+id/location"
+                android:layout_alignParentStart="true"
+                android:paddingTop="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/location1"
+                android:hint="Location"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorPrimary"
+                android:drawableRight="@drawable/location"></EditText>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mobile"
+                android:id="@+id/mobile"
+                android:layout_alignParentStart="true"
+                android:paddingTop="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mobile1"
+                android:hint="Mobile"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorPrimary"
+                android:drawableRight="@drawable/mobile"
+                android:inputType="number"/>
+
+
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:id="@+id/reg"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
