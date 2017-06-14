@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -187,7 +188,8 @@ public class reg_train extends Fragment {
     public void fetch_trainings(){
         final all_train_SQlite msqld=new all_train_SQlite(getContext());
         final SQLiteDatabase sqlite=msqld.getWritableDatabase();
-        Cursor c=sqlite.query(msqld.TB_name,null,"user_id=?",new String[]{String.valueOf(2)},null,null,"id");
+        SharedPreferences sh=getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+        Cursor c=sqlite.query(msqld.TB_name,null,"user_id=?",new String[]{String.valueOf(sh.getInt("usr_id",-1))},null,null,"id");
         if(c.getCount()!=0){
             c.moveToFirst();
             while(!c.isAfterLast()){

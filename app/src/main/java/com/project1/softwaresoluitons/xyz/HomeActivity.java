@@ -115,8 +115,8 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.create_training) {
             startActivity(new Intent(this,crt_training.class));
-        } else if (id == R.id.t_notifications) {
-            startActivity(new Intent(this,tr_notifications.class));
+        } else if (id == R.id.notifications) {
+            startActivity(new Intent(this,Notifications.class));
         } else if (id == R.id.u_Notifications) {
 
         } else if (id == R.id.nav_manage) {

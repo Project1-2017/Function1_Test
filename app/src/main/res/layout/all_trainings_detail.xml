@@ -54,12 +54,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
       />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/register"
             android:text="Enquire"
+            android:layout_weight="4"
             />
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/register1"
+                    android:text="Register"
+                    android:layout_weight="4"
+                    />
+                </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

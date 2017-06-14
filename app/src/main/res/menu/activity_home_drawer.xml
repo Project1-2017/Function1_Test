@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Create Training" />
         <item
-            android:id="@+id/t_notifications"
+            android:id="@+id/notifications"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Trainer Notifications" />
+            android:title="Notifications" />
         <item
             android:id="@+id/u_Notifications"
             android:icon="@drawable/ic_menu_slideshow"

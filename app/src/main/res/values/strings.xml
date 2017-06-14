@@ -6,6 +6,11 @@
         <item>Registered\nTrainings</item>
     </array>
 
+    <array name="notifications">
+        <item>Learner\nNotifications</item>
+        <item>Trainer\nNotifications</item>
+    </array>
+
     <array name="availability">
         <item>Weekdays</item>
         <item>Weekends</item>

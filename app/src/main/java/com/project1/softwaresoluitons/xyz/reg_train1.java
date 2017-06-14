@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -235,7 +236,8 @@ public class reg_train1 extends Fragment {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put("type","trainings_rgst");
-                    params.put("user_id",String.valueOf(2));
+                    SharedPreferences sh=getContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+                    params.put("user_id",String.valueOf(sh.getInt("usr_id",-1)));
                     return params;
                 }
             };

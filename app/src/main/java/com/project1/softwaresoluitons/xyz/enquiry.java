@@ -75,6 +75,7 @@ public class enquiry extends Activity implements View.OnClickListener {
                             Log.i("response",response);
                             finish();
                             Toast.makeText(enquiry.this,"Message send!!",Toast.LENGTH_LONG).show();
+                            training_detail.status=1;
                         }
                     },
                     new Response.ErrorListener() {

@@ -3,10 +3,12 @@ package com.project1.softwaresoluitons.xyz;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -50,9 +52,11 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
     public Bitmap b;
     public ImageView img;
     public CollapsingToolbarLayout collapsingToolbar;
-    public ArrayList<training_detail_item> items;
+    public static ArrayList<training_detail_item> items;
     public RecyclerView recyclerView;
-    public Button register;
+    public Button register,register1;
+    public static adapter adapter;
+    public static int status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +72,47 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
         recyclerView=(RecyclerView)findViewById(R.id.rview);
         register=(Button)findViewById(R.id.register);
         register.setOnClickListener(this);
+        register1=(Button)findViewById(R.id.register1);
         int u=i.getIntExtra("calling_activity",0);
-        if(u==0){
+    /*    if(u==0){
             register.setVisibility(View.GONE);
-        }
+            register1.setVisibility(View.GONE);
+        }*/
         fetch_trainings();
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(status==3){
+            register.setVisibility(View.GONE);
+            register1.setText("Created Training");
+            int whiteColor = Color.parseColor("#FFFFFF");
+            int greenColor = Color.parseColor("#99cc00");
+            register1.setBackgroundColor(greenColor);
+            register1.setTextColor(whiteColor);
+            register1.setEnabled(false);
+        }
+        else if(status==2){
+            register.setVisibility(View.GONE);
+            register1.setText("Already Registered");
+            int whiteColor = Color.parseColor("#FFFFFF");
+            int greenColor = Color.parseColor("#99cc00");
+            register1.setBackgroundColor(greenColor);
+            register1.setTextColor(whiteColor);
+            register1.setEnabled(false);
+        }
+        else if(status==1){
+            register.setText("Already Enquired");
+            int whiteColor = Color.parseColor("#FFFFFF");
+            int greenColor = Color.parseColor("#99cc00");
+            register.setBackgroundColor(greenColor);
+            register.setTextColor(whiteColor);
+            register.setEnabled(false);
+        }
+    }
+
     public void fetch_trainings(){
         dialog = new ProgressDialog(training_detail.this);
         dialog.setMessage("Please wait !!");
@@ -84,10 +122,36 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
                         @Override
                         public void onResponse(String response) {
                             dialog.dismiss();
-
                             Log.i("response11",response);
                             try {
                                 JSONObject res = new JSONObject(response);
+                                status=Integer.parseInt(res.getString("status"));
+                                if(status==3){
+                                    register.setVisibility(View.GONE);
+                                    register1.setText("Created Training");
+                                    int whiteColor = Color.parseColor("#FFFFFF");
+                                    int greenColor = Color.parseColor("#99cc00");
+                                    register1.setBackgroundColor(greenColor);
+                                    register1.setTextColor(whiteColor);
+                                    register1.setEnabled(false);
+                                }
+                                else if(status==2){
+                                    register.setVisibility(View.GONE);
+                                    register1.setText("Already Registered");
+                                    int whiteColor = Color.parseColor("#FFFFFF");
+                                    int greenColor = Color.parseColor("#99cc00");
+                                    register1.setBackgroundColor(greenColor);
+                                    register1.setTextColor(whiteColor);
+                                    register1.setEnabled(false);
+                                }
+                                else if(status==1){
+                                    register.setText("Already Enquired");
+                                    int whiteColor = Color.parseColor("#FFFFFF");
+                                    int greenColor = Color.parseColor("#99cc00");
+                                    register.setBackgroundColor(greenColor);
+                                    register.setTextColor(whiteColor);
+                                    register.setEnabled(false);
+                                }
                                 JSONArray thread = res.getJSONArray("training_item");
                                     JSONObject obj = thread.getJSONObject(0);
                                     title = obj.getString("title");
@@ -129,7 +193,7 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
 
                                 collapsingToolbar.setTitle(title);
                                 img.setImageBitmap(b);
-                                adapter adapter=new adapter(training_detail.this,items);
+                                adapter=new adapter(training_detail.this,items);
 
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(training_detail.this));
@@ -151,6 +215,8 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
                     Map<String, String> params = new HashMap<>();
                     params.put("type","training_item");
                     params.put("training_id",id);
+                    SharedPreferences sh=getSharedPreferences("user",MODE_PRIVATE);
+                    params.put("user_id",sh.getInt("usr_id",-1)+"");
 
                     return params;
                 }
@@ -164,6 +230,9 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
             Intent i=new Intent(this,enquiry.class);
             i.putExtra("training_id",id);
             startActivity(i);
+        }
+        else if(v==register1){
+
         }
     }
 }
