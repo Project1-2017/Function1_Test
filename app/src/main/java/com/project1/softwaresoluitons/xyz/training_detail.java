@@ -46,7 +46,7 @@ import java.util.Map;
 
 public class training_detail extends AppCompatActivity implements View.OnClickListener {
     public TextView key_learning10,key_learning20,trainer10,trainer20,time_venue10,time_venue20,time_venue30,time_venue40,pre10;
-    String id,title,k_l1,k_l2,k_l3,price,mobile_no,name,venue,category,available,from,to,date,description,pre;
+    String id,title,k_l1,k_l2,k_l3,price,mobile_no,name,venue,category,available,from,to,date,description,pre,duration;
     public ProgressDialog dialog;
     public RequestQueue queue;
     public Bitmap b;
@@ -169,27 +169,23 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
                                     date= obj.getString("date");
                                     description = obj.getString("description");
                                     pre = obj.getString("pre");
+                                    duration=obj.getString("duration");
                                     b= BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                                    if(k_l1.equals("null")||k_l2.equals("null")||k_l3.equals("null")){
+                                    if(k_l1.equals("") && k_l2.equals("") && k_l3.equals("")){
                                         items.add(new training_detail_item("Key Learnings","null"));
                                     }
                                     else{
                                         items.add(new training_detail_item("Key Learnings","1. "+k_l1+"\n2. "+k_l2+"\n3. "+k_l3));
                                     }
                                     items.add(new training_detail_item("Description",description));
-                                    items.add(new training_detail_item("Contact",name));
+                                    //items.add(new training_detail_item("Contact",name));
+                                    items.add(new training_detail_item("Contact","8880390936"));
                                     items.add(new training_detail_item("Mobile No",mobile_no));
                                     items.add(new training_detail_item("Availability",available));
                                     items.add(new training_detail_item("Date",date));
-                                    if(from.equals("null")||to.equals("null")){
-                                        items.add(new training_detail_item("Timmings","null"));
-                                    }
-                                    else{
-                                        items.add(new training_detail_item("Timmings",from+" - "+to));
-
-                                    }
+                                    items.add(new training_detail_item("Duration hrs/day",duration));
                                     items.add(new training_detail_item("Venue",venue));
-                                    items.add(new training_detail_item("Pre-requisite",pre));
+                                    //items.add(new training_detail_item("Pre-requisite",pre));
 
                                 collapsingToolbar.setTitle(title);
                                 img.setImageBitmap(b);

@@ -131,6 +131,90 @@
                 android:textColor="@color/colorPrimary"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Date"
+                android:id="@+id/date"
+                android:layout_alignParentStart="true"
+
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_1"
+                android:hint="dd/mm/yyyy"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorPrimary"
+                android:inputType="date"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Key Learning 1"
+                android:id="@+id/kl1"
+                android:layout_alignParentStart="true"
+
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/kl1_1"
+                android:hint="Key Learning 1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorPrimary"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Key Learning 2"
+                android:id="@+id/kl2"
+                android:layout_alignParentStart="true"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/kl2_1"
+                android:hint="Key Learning 2"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorPrimary"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Key Learning 3"
+                android:id="@+id/kl3"
+                android:layout_alignParentStart="true"
+
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/kl3_1"
+                android:hint="Key Learning 3"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorPrimary"
+                />
+
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

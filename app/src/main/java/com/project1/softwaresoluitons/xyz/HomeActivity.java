@@ -38,11 +38,11 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         SharedPreferences sh=getSharedPreferences("user",MODE_PRIVATE);
         int count=sh.getInt("count",0);
-        if(count>0){
+     /*   if(count>0){
             Toast toast = Toast.makeText(this,"You have "+count+"unresponded enquiries", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
-        }
+        }*/
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

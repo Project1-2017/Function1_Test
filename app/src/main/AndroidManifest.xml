@@ -45,7 +45,6 @@
             android:name=".enquiry"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".gf_login" />
-        <activity android:name=".tr_notifications" />
         <activity
             android:name=".reply"
             android:theme="@android:style/Theme.Dialog" />

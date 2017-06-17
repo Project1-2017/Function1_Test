@@ -7,8 +7,8 @@
     </array>
 
     <array name="notifications">
-        <item>Learner\nNotifications</item>
         <item>Trainer\nNotifications</item>
+        <item>Learner\nNotifications</item>
     </array>
 
     <array name="availability">

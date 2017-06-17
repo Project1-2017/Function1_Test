@@ -37,12 +37,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class crt_training extends Activity implements View.OnClickListener{
-    private EditText  name,location,price,duration,description;
+    private EditText  name,location,price,duration,description,kl1,kl2,kl3,date;
     private Button crt_training;
     private Spinner category,availability;
     public ProgressDialog dialog;
@@ -61,6 +64,10 @@ public class crt_training extends Activity implements View.OnClickListener{
         description=(EditText)findViewById(R.id.description1);
         crt_training=(Button)findViewById(R.id.rgstr);
         category=(Spinner)findViewById(R.id.category1);
+        kl1=(EditText)findViewById(R.id.kl1_1);
+        kl2=(EditText)findViewById(R.id.kl2_1);
+        kl3=(EditText)findViewById(R.id.kl3_1);
+        date=(EditText)findViewById(R.id.date_1);
         availability=(Spinner)findViewById(R.id.availability1);
         crt_training.setOnClickListener(this);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -87,13 +94,29 @@ public class crt_training extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if(v==crt_training){
-            if(name.getText()==null||location.getText()==null||price.getText()==null
-                    ||duration.getText()==null||description.getText()==null||category.getSelectedItem()==null||
-                    availability.getSelectedItem()==null){
+            if(name.getText().toString().equals("")||location.getText().toString().equals("")||price.getText().toString().equals("")
+                    ||duration.getText().toString().equals("")||description.getText().toString().equals("")||category.getSelectedItem().toString().equals("")||
+                    availability.getSelectedItem().toString().equals("")||date.getText().toString().equals("")){
                 //do nothing;
+                Toast.makeText(this,"only optional fields can be left empty",Toast.LENGTH_LONG).show();
             }
             else{
-                crt_training();
+                Date d = null;
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+                    d = sdf.parse(date.getText().toString());
+                    if (!date.getText().toString().equals(sdf.format(d))) {
+                        d = null;
+                    }
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                if (d == null) {
+                    Toast.makeText(this,"Date format is invalid ",Toast.LENGTH_LONG).show();
+                } else {
+                    crt_training();
+                }
+
             }
         }
     }
@@ -197,6 +220,10 @@ public class crt_training extends Activity implements View.OnClickListener{
                     params.put("description",description.getText().toString());
                     params.put("category",category.getSelectedItem().toString());
                     params.put("availability",availability.getSelectedItem().toString());
+                    params.put("kl1",kl1.getText().toString());
+                    params.put("kl2",kl2.getText().toString());
+                    params.put("kl3",kl3.getText().toString());
+                    params.put("date",date.getText().toString());
                     return params;
                 }
             };

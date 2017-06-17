@@ -149,7 +149,8 @@ public class tra_not extends Fragment {
                                 String d_t = obj.getString("date_time");
                                 String message = obj.getString("message");
                                 String title = obj.getString("title");
-                                notifications.add(new notification_item(d_t,name,message,email,contact,title,id));
+                                int response_status=obj.getInt("response_status");
+                                notifications.add(new notification_item(d_t,name,message,email,contact,title,id,response_status));
                             }
                             adapter=new n_adapter(getContext(),notifications);
                             //recyclerView=(RecyclerView)getView().findViewById(R.id.reg_train);
@@ -206,7 +207,7 @@ public class tra_not extends Fragment {
 class notification_item{
     String date_time,name,message,email,contact,tr_title;
     int id,reply_status;
-    notification_item(String date_time,String name,String message, String email,String contact,String tr_title,int id){
+    notification_item(String date_time,String name,String message, String email,String contact,String tr_title,int id,int reply_status){
         this.date_time=date_time;
         this.contact=contact;
         this.email=email;
@@ -214,6 +215,7 @@ class notification_item{
         this.message=message;
         this.tr_title=tr_title;
         this.id=id;
+        this.reply_status=reply_status;
     }
 }
 

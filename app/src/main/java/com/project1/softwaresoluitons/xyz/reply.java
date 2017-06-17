@@ -102,13 +102,12 @@ public class reply extends Activity implements View.OnClickListener {
                         Log.i("response",response);
                         finish();
                         String ss="Hello "+name+" !\n"+"You have received a mail in response to your enquiry for\n\nTraining: "+tr_title+"\n"+"Trainer Name: "+from_name;
-                        SmsManager smsManager = SmsManager.getDefault();
-                       // smsManager.sendTextMessage("8947999188", null,ss, null, null);
+                       /*
                         SmsManager sms = SmsManager.getDefault();
                         ArrayList<String> parts = sms.divideMessage(ss);
-                        sms.sendMultipartTextMessage(contact, null, parts, null,null);
-                        tr_notifications.notifications.get(position).reply_status=1;
-                        tr_notifications.adapter.notifyDataSetChanged();
+                        sms.sendMultipartTextMessage(contact, null, parts, null,null);*/
+                        tra_not.notifications.get(position).reply_status=1;
+                        tra_not.adapter.notifyDataSetChanged();
                         Toast.makeText(reply.this,"Replied successfully through E-mail and SMS!!",Toast.LENGTH_LONG).show();
                         SharedPreferences sh=getSharedPreferences("user",MODE_PRIVATE);
                         SharedPreferences.Editor e=sh.edit();
