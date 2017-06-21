@@ -73,6 +73,7 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
         register=(Button)findViewById(R.id.register);
         register.setOnClickListener(this);
         register1=(Button)findViewById(R.id.register1);
+        register1.setOnClickListener(this);
         int u=i.getIntExtra("calling_activity",0);
     /*    if(u==0){
             register.setVisibility(View.GONE);
@@ -228,7 +229,10 @@ public class training_detail extends AppCompatActivity implements View.OnClickLi
             startActivity(i);
         }
         else if(v==register1){
-
+            Intent i=new Intent(this,amount.class);
+            i.putExtra("price",price);
+            i.putExtra("training_id",id);
+            startActivity(i);
         }
     }
 }
